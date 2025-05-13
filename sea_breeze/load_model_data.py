@@ -857,6 +857,10 @@ def interpolate_angles(angle_ds):
 
 def interpolate_variance(angle_ds):
 
+    """
+    From a dataset of coastline angle variance, interpolate across the coastline.
+    """
+
     xx,yy = np.meshgrid(angle_ds.lon,angle_ds.lat)
 
     points = angle_ds.variance.values.ravel()
