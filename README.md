@@ -17,11 +17,17 @@ See [Project description](/Project%20description.pdf) for further details.
 
 ### **Project leads:** 
 
-Andrew Brown, University of Melbourne (@andrewbrown31)
+* Andrew Brown, University of Melbourne (@andrewbrown31)
 
-Bethan White, University of Melbourne (@bethanwhite)
+* Bethan White, University of Melbourne (@bethanwhite)
 
-<!-- **Project members:** name, affiliation/github username -->
+**Project members:** 
+
+* Edward Kyle Badua, Manila Observatory (@kylebadua)
+
+* Huazhen Li, UNSW (@HuazhenLi)
+
+* Anupiya Ellepola, ANU, (@AVEllepola)
 
 <!-- **Collaborators:** list here other collaborators to the project. -->
 
