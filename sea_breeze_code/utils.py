@@ -4,6 +4,22 @@ import xarray as xr
 import xesmf as xe
 import skimage
 import glob
+import healpy as hp
+
+def get_nn_lon_lat_index(nside, lons, lats):
+    """
+    Interpolate from healpix to regular lat lon
+    
+    nside: integer, power of 2. The return of hp.get_nside()
+    lons: uniques values of longitudes
+    lats: uniques values of latitudes
+    returns: array with the HEALPix cells that are closest to the lon/lat grid
+    """
+    lons2, lats2 = np.meshgrid(lons, lats)
+    return xr.DataArray(
+        hp.ang2pix(nside, lons2, lats2, nest = True, lonlat = True),
+        coords=[("lat", lats), ("lon", lons)],
+    )
 
 def load_diagnostics(field,model):
 
