@@ -172,3 +172,11 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+#dask distributed config files
+.cfg*
+*/.cfg*
+
+#PBS output
+*.sh.e*
+*.sh.o*
