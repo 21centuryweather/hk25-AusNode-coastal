@@ -25,6 +25,7 @@ if __name__=="__main__":
     #ds = xr.open_zarr("/g/data/qx55/germany_node/d3hp003.zarr/PT1H_point_z10_atm.zarr/")
     #ds = xr.open_zarr("/g/data/qx55/uk_node/glm.n2560_RAL3p3/data.healpix.PT1H.z10.zarr/")
     ds = xr.open_zarr("/g/data/nf33/hk25_AusNode_coastal/sftlf_um_z8.zarr/")
+    ds_hp = xr.open_zarr("/g/data/qx55/uk_node/glm.n2560_RAL3p3/data.healpix.PT1H.z8.zarr/")
 
     #Get the "nside", which is used for regridding
     nside = hp.get_nside(ds.sftlf)
@@ -61,12 +62,18 @@ if __name__=="__main__":
     #https://github.com/digital-earths-global-hackathon/hk25-teams/blob/main/hk25-MCS/remap_mcsmask_to_healpix_fullglobe.ipynb
 
     #To re-map to healpix format
-    ds = ds.pipe(partial(egh.attach_coords))
-    lon_hp = ds.lon.assign_coords(cell=ds.cell, lon_hp=lambda da: da)
-    lat_hp = ds.lat.assign_coords(cell=ds.cell, lat_hp=lambda da: da)
+    #General code
+    #ds = ds.pipe(partial(egh.attach_coords))
+    #lon_hp = ds.lon.assign_coords(cell=ds.cell, lon_hp=lambda da: da)
+    #lat_hp = ds.lat.assign_coords(cell=ds.cell, lat_hp=lambda da: da)
+
+    #Code for UM z8 (where we've had to remake the lsm)
+    ds_hp = ds_hp.pipe(partial(egh.attach_coords))
+    lat_hp = ds_hp.lat
+    lon_hp = ds_hp.lon
 
     angle_ds_hp = angle_ds.sel(lon=lon_hp, lat=lat_hp, method="nearest")
-    angle_ds_hp = angle_ds_hp.drop_vars(["lat_hp", "lon_hp"]) 
+    #angle_ds_hp = angle_ds_hp.drop_vars(["lat_hp", "lon_hp"])
 
     #Save the healpix angles to disk
     #angle_ds_hp.to_zarr("/g/data/nf33/hk25_AusNode_coastal/icon_z10.zarr")     
