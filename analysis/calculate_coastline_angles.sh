@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#PBS -P nf33 
+#PBS -P ng72 
 #PBS -q normal
-#PBS -l walltime=06:00:00,mem=190GB 
+#PBS -l walltime=24:00:00,mem=190GB 
 #PBS -l ncpus=48
 #PBS -l jobfs=32gb
 #PBS -l storage=gdata/nf33+gdata/dk92+gdata/qx55+gdata/hh5+scratch/nf33

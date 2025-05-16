@@ -5,9 +5,48 @@ import xesmf as xe
 import skimage
 import glob
 import healpy as hp
+from scipy.interpolate import NearestNDInterpolator 
+
+def interpolate_field_lon_lat(field, lon_coord="lon", lat_coord="lat", relative_resolution=2):
+    """
+
+    From https://github.com/digital-earths-global-hackathon/hk25-teams/tree/main/hk25-ShallowCirc
+
+    Interpolates a 1D spatial field to a regular 2D lon-lat grid using nearest-neighbor.
+
+    Parameters:
+        field (xarray.DataArray): Field with coordinates (lon, lat)
+        lon_coord (str): Name of the longitude coordinate
+        lat_coord (str): Name of the latitude coordinate
+        relative_resolution (float): Controls output grid resolution (higher = finer)
+
+    Returns:
+        xarray.DataArray: Interpolated 2D field on regular lon-lat grid
+    """
+    nlon = nlat = int(np.sqrt(len(field) * relative_resolution))
+
+    lon_points = field[lon_coord].values
+    lat_points = field[lat_coord].values
+
+    lon = np.linspace(np.min(lon_points), np.max(lon_points), nlon)
+    lat = np.linspace(np.min(lat_points), np.max(lat_points), nlat)
+    lon2, lat2 = np.meshgrid(lon, lat)
+
+    points = np.stack((lon_points, lat_points), axis=1)
+
+    interpolated = NearestNDInterpolator(points, field.values)(lon2, lat2)
+
+    return xr.DataArray(
+        interpolated,
+        dims=["lat", "lon"],
+        coords={"lon": lon, "lat": lat},
+    )
 
 def get_nn_lon_lat_index(nside, lons, lats):
     """
+
+    From https://github.com/21centuryweather/hackathon-2025-australia-node
+
     Interpolate from healpix to regular lat lon
     
     nside: integer, power of 2. The return of hp.get_nside()
